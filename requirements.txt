@@ -3,3 +3,4 @@ html5lib
 ipython
 requests
 psycopg2
+selenium
