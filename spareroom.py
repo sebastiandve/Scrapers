@@ -3,6 +3,11 @@ from selenium import webdriver
 import time
 import pandas as pd
 
+def get_contact_status(item):
+    try:
+        return item.find('footer').find('a', {'class': 'tooltip savedAd'}).find('span').get_text().strip()
+    except:
+        return "Not contacted"
 
 message = """Hey,
 
@@ -11,7 +16,7 @@ This is my ad: www.spareroom.co.uk/flatshare/ london/maida_vale/14904769
 
 Please let me know if you have any questions.
 
-Many thanks
+Cheers
 Sebastian
 """
 
@@ -43,19 +48,21 @@ for page in range(0, 651, 10):
         current = {}
         current['title'] = result.find('header').find('a').find('h1').get_text().strip()
         current['url'] = result.find('header').find('a')['href']
-        current['status'] = result.find('footer').find('span').get_text().strip()
-        current['status2'] = result.find('footer').find('span', {'class': 'tooltip_text'}).get_text().strip()
+        # current['status'] = result.find('footer').find('span').get_text().strip()
+        current['status'] = get_contact_status(result)
         listings.append(current)
 
-# df = pd.DataFrame(listings)
+df = pd.DataFrame(listings)
 
 count=0
 for i, l in enumerate(listings):
     if 'couple' in l['title'].lower():
+        count+=1
         continue
-    if l['status2'] == 'You have contacted this ad. Click the link to change its status.':
+    if l['status'].strip() == 'Contacted':
+        count += 1
         continue
-    print(count, l['title'])
+    print(count, l['title'], l['status'])
 
     driver.get("https://www.spareroom.co.uk"+l['url']+'&mode=contact&submode=byemail')
     driver.find_element_by_id('message').send_keys(message)
