@@ -18,7 +18,7 @@ def is_contactable(item):
 message = """Hey,
 
 I'm looking for someone to replace me in my current house in Maida Vale and can move in June at the latest.
-This is my ad: www.spareroom.co.uk/flatshare/london/maida_vale/14904769
+This is my ad: www.spareroom.co.uk/flatshare/london/maida_vale/____
 
 Please let me know if you have any questions.
 
@@ -35,8 +35,8 @@ driver = webdriver.Chrome(chrome_options=options)
 
 driver.get("https://www.spareroom.co.uk/flatshare/logon.pl")
 
-driver.find_element_by_id("loginemail").send_keys("voneuwdel@gmail.com")
-driver.find_element_by_id("loginpass").send_keys("5RM&MBzawbs5")
+driver.find_element_by_id("loginemail").send_keys("john.doe@gmail.com")
+driver.find_element_by_id("loginpass").send_keys("password")
 driver.find_element_by_id("sign-in-button").click()
 
 
